@@ -12,6 +12,7 @@
 
   <script src="./words.js" charset="utf-8"></script>
   <script src="./controller.js" charset="utf-8"></script>
+  <script src="./trie.js" charset="utf-8"></script>
   <script>
 
   	document.addEventListener('DOMContentLoaded', function () {
@@ -19,6 +20,9 @@
 	  // Instantiate your trie data type here, and load the words 
 	  // in the provided JSON dictionary (accessible as an array
 	  // stored in the variable 'WORDS') into the data structure.
+
+	  var trie = Trie();
+	  WORDS.forEach(trie.add);
 
 	  // After instantiating and populating your trie above, you need
 	  // to register a listener function to be called after each 
@@ -39,19 +43,11 @@
 	    // code to provide autocompletion suggestions.
 
 	  	var NUM_WORDS_TO_SHOW = 10;
-	  	var i, randomWord;
 
 	  	CONTROLLER.clearSearchResults();
 
-	  	// Display the current word
-	  	CONTROLLER.appendToSearchResults(word);
-
-	  	// Display some random words
-	  	for (i = 0; i < NUM_WORDS_TO_SHOW; ++i) {
-	  	  randomWord = WORDS[Math.floor(Math.random() * WORDS.length)];
-	  	  CONTROLLER.appendToSearchResults(randomWord);
-	  	}
-	  	
+	  	// Display words in trie
+		trie.get(word, NUM_WORDS_TO_SHOW).forEach(CONTROLLER.appendToSearchResults);
       });
 
   	});
